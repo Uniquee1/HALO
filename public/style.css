@@ -1,12 +1,298 @@
-body { font-family: sans-serif; background: #f4f4f9; display: flex; justify-content: center; padding: 20px; }
-.container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-.tab-content { display: flex; flex-direction: column; gap: 10px; }
-.hidden { display: none !important; }
-input, select, button { padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
-button { background: #007bff; color: white; border: none; cursor: pointer; }
-button:hover { background: #0056b3; }
-#reader { width: 100%; margin-top: 10px; }
-#status-msg { margin-top: 15px; font-weight: bold; text-align: center; }
-.success { color: green; }
-.error { color: orange; }
+:root {
+  --lime: #91c11e;
+  --lime-dark: #7aa319;
+  --dark: #2c3e50;
+  --light-bg: #f8f9fa;
+  --gray: #95a5a6;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background: var(--light-bg);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
+  color: var(--dark);
+}
+
+.container {
+  background: var(--white);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Header & Logo */
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-family: "Syncopate", sans-serif;
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+  color: var(--lime);
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gray);
+  font-weight: 600;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  background: #eee;
+  padding: 5px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--gray);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+  background: var(--white);
+  color: var(--lime);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tab Content */
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--dark);
+  margin-left: 5px;
+}
+
+input,
+select {
+  padding: 14px;
+  border: 2px solid #edf2f7;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--lime);
+}
+
+.main-btn {
+  background: var(--lime);
+  color: var(--white);
+  border: none;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  margin-top: 10px;
+}
+
+.main-btn:hover {
+  background: var(--lime-dark);
+  transform: translateY(-2px);
+}
+
+.main-btn:active {
+  transform: translateY(0);
+}
+
+/* Scanner Area */
+#reader-container {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px dashed #ddd;
+  margin-top: 10px;
+}
+
+#reader {
+  width: 100%;
+}
+
+#status-msg {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.error {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+/* Add these to your style.css */
+
+.main-btn:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.active-process {
+  background: #f1f1f1;
+  color: var(--dark);
+  padding: 10px;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Ensure the reader div stays clean */
+#reader {
+  border: none !important; /* Removes the default library borders */
+}
+
+/* Modal Overlay (The Faded Background) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Faded black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px); /* Modern blur effect */
+}
+
+/* Modal Box */
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 85%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: modalPop 0.3s ease-out;
+}
+
+@keyframes modalPop {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+#modal-icon {
+  font-size: 50px;
+  margin-bottom: 15px;
+}
+
+#modal-title {
+  font-family: "Syncopate", sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+#modal-user {
+  color: var(--gray);
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+/* Container for the timer bar */
+.timer-bar-container {
+  width: 100%;
+  height: 4px;
+  background: #eee;
+  border-radius: 2px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+/* The actual moving bar */
+.timer-bar {
+  height: 100%;
+  background: var(--lime);
+  width: 100%;
+  animation: shrink 3s linear forwards;
+}
+
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* Modal Content Adjustment (removed button padding) */
+.modal-content {
+  padding-bottom: 20px;
+}

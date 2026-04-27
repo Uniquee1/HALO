@@ -1,37 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Pass</title>
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HALO | Event Management</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Syncopate:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
     <script src="https://unpkg.com/html5-qrcode"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h2>Event Manager</h2>
-        
-        <div class="tabs">
-            <button onclick="showTab('create')">Create Event</button>
-            <button onclick="showTab('scan')">Scanner</button>
-        </div>
+      <header>
+        <h1 class="logo">HALO</h1>
+        <p class="subtitle">Event Manager</p>
+      </header>
 
-        <div id="create-section" class="tab-content">
-            <input type="text" id="event-name" placeholder="Event Name">
-            <input type="date" id="event-date">
-            <input type="text" id="event-venue" placeholder="Venue">
-            <button onclick="handleCreateEvent()">Create Event</button>
-        </div>
+      <div class="tabs">
+        <button
+          id="btn-create"
+          class="tab-btn active"
+          onclick="showTab('create', this)"
+        >
+          Create Event
+        </button>
+        <button id="btn-scan" class="tab-btn" onclick="showTab('scan', this)">
+          Scanner
+        </button>
+      </div>
 
-        <div id="scan-section" class="tab-content hidden">
-            <select id="event-dropdown" onchange="toggleScannerBtn()">
-                <option value="">Select an Event</option>
-            </select>
-            <button id="open-cam-btn" class="hidden" onclick="startScanner()">Open Camera</button>
-            <div id="reader"></div>
-            <div id="status-msg"></div>
+      <div id="create-section" class="tab-content">
+        <div class="input-group">
+          <label>Event Name</label>
+          <input
+            type="text"
+            id="event-name"
+            placeholder="e.g. Annual General Meeting"
+          />
         </div>
+        <div class="input-group">
+          <label>Date</label>
+          <input type="date" id="event-date" />
+        </div>
+        <div class="input-group">
+          <label>Venue</label>
+          <input
+            type="text"
+            id="event-venue"
+            placeholder="e.g. Grand Ballroom"
+          />
+        </div>
+        <button class="main-btn" onclick="handleCreateEvent()">
+          Create New Event
+        </button>
+      </div>
+
+      <div id="scan-section" class="tab-content hidden">
+        <div class="input-group">
+          <label>Active Event</label>
+          <select id="event-dropdown" onchange="toggleScannerBtn()">
+            <option value="">Select an event to start...</option>
+          </select>
+        </div>
+        <button
+          id="open-cam-btn"
+          class="main-btn hidden"
+          onclick="handleScannerToggle()"
+        >
+          Open Camera
+        </button>
+        <div id="reader-container">
+          <div id="reader"></div>
+        </div>
+        <div id="status-msg"></div>
+      </div>
+
+      <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal-content">
+          <div id="modal-icon"></div>
+          <h3 id="modal-title">Status</h3>
+          <p id="modal-user"></p>
+          <div class="timer-bar-container">
+            <div class="timer-bar"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
