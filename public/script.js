@@ -1,5 +1,5 @@
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbx_RcsAdBewQY_jWkQ9dknhcoH7ram5hvT_T9aQK9j_iEzuzQQl21aGnY40QQTuNKPM/exec";
+  "https://script.google.com/macros/s/AKfycbwac9N_D1na9mm5szOlr6ia-e8ZNsDxniIPvVTNbT-Kgfcl2sFyJLftsu0BEllOI2kW/exec";
 let html5QrCode;
 let isScannerRunning = false;
 let allEvents = [];
@@ -57,7 +57,10 @@ async function loadEvents() {
     allEvents.forEach((ev) => {
       let opt = document.createElement("option");
       opt.value = ev.id;
-      opt.text = `${ev.name} (${ev.date})`;
+
+      // CHANGED: Removed (${ev.date}) to show only the name
+      opt.text = ev.name;
+
       dropdown.add(opt);
     });
   } catch (e) {
